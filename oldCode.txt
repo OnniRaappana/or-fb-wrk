@@ -1,0 +1,32 @@
+/*
+  if (content === "startDelete" && author.id === creator) { // Replace YOUR_ID with your Discord user ID
+    kickMembersWithoutRole();
+  }
+  async function kickMembersWithoutRole() {
+    const serverId = '832250617329090611'; // Replace with your server ID
+    const roleToCheck = '1148640699189825556'; // Replace with the role ID you want to check
+    const server = client.guilds.cache.get(serverId);
+    if (!server) {
+      console.error('Server not found. Make sure the bot is in the server and the server ID is correct.');
+      return;
+    }
+    const membersToKick = server.members.cache.filter((member) => !member.roles.cache.has(roleToCheck)).array();
+    console.log('Members without the specified role:');
+    membersToKick.forEach((member, index) => {
+    console.log(`${index + 1}. ${member.user.tag}`);
+    member.kick()
+    .then(() => console.log(`Kicked ${member.user.tag}`))
+    .catch((error) => console.error(`Error kicking ${member.user.tag}: ${error}`));
+    });
+  }
+*/
+
+  /*if (content === "&help") {
+    try {
+        const helpEmbed = helpModule.getHelpMessage();
+        message.channel.send({ embeds: [helpEmbed] });
+    } catch (error) {
+        console.error(`Error encountered: ${error.message}`);
+        message.channel.send("An error occurred while processing your request.");
+    }
+  }*/
