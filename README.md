@@ -1,3 +1,3 @@
-# A discord bot I have been developing for fun.
+# -------.
 
-<h3>No actual use</h1>
+<h3>Tk, I've commented most lines which should help with future coding</h3>
