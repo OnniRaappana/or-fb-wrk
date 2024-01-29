@@ -1,0 +1,66 @@
+const { Client, MessageEmbed, GatewayIntentBits } = require('discord.js');
+const infoCommand = require('../info.js');
+// ---------------------------------- constants ----------------------------------
+const { prefix, creatorID, discordToken, staffID } = require('./whatnot/consts.js');
+// ---------------------------------- constants ----------------------------------
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+
+client.once('ready', () => {
+  console.log(`Logged in as ${client.user.username}`);
+});
+
+client.on('message', async (message) => {
+  const { content, member, guild, author } = message;
+  if (message.author.bot) return; // Ignore messages from other bots
+  console.log(prefix, creatorID, staffID);
+
+  if (content.startsWith(prefix)) {
+    const args = content.slice(prefix.length).trim().split(/ +/);
+    console.log(prefix + 'this is prefix');
+    const cmd = args.shift().toLowerCase();
+    
+    if (cmd === 'mm') {
+      message.channel.send('a');
+      /*if(author.id === creatorID){
+        try {
+          message.channel.send('a');
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        message.channel.send({ content: 'You do not have permission to use this command.', ephemeral: true });
+      }
+      
+      member.roles.cache.some(role => role.id === staffID) || */
+    }
+  
+
+// ---------------------------------- info command (wip) ----------------------------------
+
+    if (command === 'info') {
+      if (member.permissions.has('ADMINISTRATOR') || author.id === creator) {
+        const infoEmbeds = infoCommand.getInfoEmbed();
+        for (const infoEmbed of infoEmbeds) {
+          if (infoEmbed) {
+            await message.channel.send({ embeds: [infoEmbed] }).catch(console.error);
+          } else {
+            message.channel.send('Error creating info message.');
+          }
+        }
+      } else {
+        message.channel.send('You do not have permission to use this command.');
+      }
+    }
+// ---------------------------------- info command (wip) ----------------------------------
+// ---------------------------------- invite link ----------------------------------
+    
+// ---------------------------------- invite link ----------------------------------
+}
+if (command === 'invite') {
+  message.channel.send(`<@${author.id}> here is the invite link: https://discord.com/api/oauth2/authorize?client_id=1128389508283506868&permissions=8&scope=bot`);
+}});
+
+
+// Log in
+client.login(discordToken);
