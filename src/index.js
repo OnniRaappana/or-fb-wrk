@@ -12,7 +12,7 @@ const client = new Client({
 client.commands = new Collection();
 /*--------------------------------------------*/
 const fs = require('fs');
-const commandFiles = fs.readdirSync('./or-fb-wrk/src/commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 // this is temp solution, replace with correct path
 
 
@@ -58,7 +58,7 @@ client.on('messageCreate', async (message) => {
         console.error(error);
         message.reply('There was an error executing the command. Please contact the bot owner for assistance.');
       }
-    } 
+    }
   }
 
 
@@ -66,7 +66,7 @@ client.on('messageCreate', async (message) => {
       if(author.id == creatorID || member.roles.cache.some(role => role.id === staffID)){
        message.channel.send('a');
       } else { message.channel.send(`<@${author.id}>, You do not have the required permission to run this command.`); }
-      
+
     }*/
 
 

@@ -11,7 +11,7 @@
   "author": "finlandia",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.5.3",
+    "discord.js": "^14.14.1",
     "discord.js-commando": "^0.12.3"
   }
 }
