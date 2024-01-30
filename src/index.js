@@ -8,6 +8,7 @@ const client = new Client({
      IntentsBitField.Flags.GuildMembers,
      IntentsBitField.Flags.GuildMessages,
      IntentsBitField.Flags.MessageContent
+     
 ] });
 client.commands = new Collection();
 /*--------------------------------------------*/
@@ -25,6 +26,8 @@ client.once('ready', () => {
   console.log(`Logged in as ${client.user.username}`);
 });
 
+//if (message.content.includes())
+
 client.on('messageCreate', async (message) => {
   const { content, member, author } = message;
 
@@ -38,41 +41,55 @@ client.on('messageCreate', async (message) => {
 
   const mmTrigger = ['mm', 'matchmake']; // add more variations if needed
   if (mmTrigger.includes(cmd)) {
-    const command = client.commands.get('mm');
-    if (command) {
+    if (author.id == creatorID || member.roles.cache.some(role => role.id === staffID)){
+      const command = client.commands.get('mm');
+      if (command) {
       try {
         command.execute(message, args);
       } catch (error) {
         console.error(error);
-        message.reply('There was an error executing the command. Please contact the bot owner for assistance.');
+        message.reply('There was an error executing the command. <@544925681188864055>, check console.');
       }
-    }
+      }
+    } else { message.channel.send(`<@${author.id}>, You do not have the required permission to run this command.`); }
   }
-  const mmHelpTrigger = [/*'mm help', */'mmhelp', /*'matchmake help'*/, 'matchmakehelp']; //'mm help' and 'matchmake help' both trigger the command above
-  if (mmHelpTrigger.includes(cmd)) {
-    const command = client.commands.get('mmHelp');
-    if (command) {
+
+
+  const mmHelp = [/*'mm help', */'mmhelp', /*'matchmake help'*/, 'matchmakehelp']; //'mm help' and 'matchmake help' both trigger the command above
+  if (mmHelp.includes(cmd)) {
+    if (author.id == creatorID || member.roles.cache.some(role => role.id === staffID)){
+      const command = client.commands.get('mmHelp');
+      if (command) {
       try {
         command.execute(message, args);
       } catch (error) {
         console.error(error);
-        message.reply('There was an error executing the command. Please contact the bot owner for assistance.');
+        message.reply('There was an error executing the command. <@544925681188864055>, check console.');
       }
-    }
+      }
+    } else { message.channel.send(`<@${author.id}>, You do not have the required permission to run this command.`); }
   }
 
-
-    /*if (cmd === 'mm', 'matchmake') {
-      if(author.id == creatorID || member.roles.cache.some(role => role.id === staffID)){
-       message.channel.send('a');
-      } else { message.channel.send(`<@${author.id}>, You do not have the required permission to run this command.`); }
-
-    }*/
+  
+  const mmFetch = ['mmf', 'matchmakefetch', ]; //'mm help' and 'matchmake help' both trigger the command above
+  if (mmFetch.includes(cmd)) {
+    if (author.id == creatorID || member.roles.cache.some(role => role.id === staffID)){
+      const command = client.commands.get('mmf');
+      if (command) {
+      try {
+        command.execute(message, args);
+      } catch (error) {
+        console.error(error);
+        message.reply('There was an error executing the command. <@544925681188864055>, check console.');
+      }
+      }
+    } else { message.channel.send(`<@${author.id}>, You do not have the required permission to run this command.`); }
+  }
 
 
 /* ------------------------ INVITE ----------------------------- */
     if (cmd === 'invite') {
-      message.channel.send(`<@${author.id}> here is the invite link: https://discord.com/api/oauth2/authorize?client_id=1128389508283506868&permissions=8&scope=bot`);
+      message.channel.send(`<@${author.id}> here is the invite link, it requires administrator powers: https://discord.com/api/oauth2/authorize?client_id=1128389508283506868&permissions=8&scope=bot`);
     }
 
 

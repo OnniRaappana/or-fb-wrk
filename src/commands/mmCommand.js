@@ -1,57 +1,56 @@
-const { MessageEmbed } = require('discord.js');
-
 module.exports = {
   name: 'mm',
   description: 'Help with matchmaking',
   execute(message, args) {
-    //---------------------------------------------------------------
-    // STILL WIP
-    //---------------------------------------------------------------
-
-    // Check if the user provided a message ID
-    if (args.length === 0) {
-      message.reply('Please provide a message ID for the bot to read.');
-      return;
-    }
-
-    // Check if the user provided a channel ID
-    if (args.length === 1) {
-      message.reply('Please provide a channel ID along with the message ID.');
+    // Check if both channel ID and message ID are provided
+    if (args.length < 2) {
+      message.reply('Please provide both a channel ID and a message ID for the bot to read.');
       return;
     }
 
     const channelId = args[0];
     const messageId = args[1];
 
-    console.log(`Channel ID: ${channelId}, Message ID: ${messageId}`);
-
-
-
+    // Get the channel based on the provided ID
     const targetChannel = message.guild.channels.cache.get(channelId);
 
-
-    if (!targetChannel || targetChannel.type !== 'text') {
-      console.log(`Target Channel: ${targetChannel}`);
-      message.reply('Channel not found or not a text channel');
+    if (!targetChannel) {
+      message.reply(`The specified channel with ID ${channelId} was not found.`);
       return;
     }
 
+    // Fetch the message from the specified channel
+    targetChannel.messages.fetch(messageId)
+    
+      .then(targetMessage => {
+        // Process the message content
+        const userId = targetMessage.author.id;
+        message.channel.send(`User ID of the message sender: <@${userId}>`);
 
-    targetChannel.messages.fetch(messageId).then(targetMessage => {
-      console.log(`Target Message: ${targetMessage.content}`);
+        const splitStrings = [' ⸝⸝ ﹒', 'age: ', 'gender: ', 'sexuality: ', 'timezone: ', 'likes: ', 'age range: ', 'age range (max. 2 yrs if under 18): '];
 
-      const lines = targetMessage.content.split('\n');
+        let modifiedLines = targetMessage.content.split('\n');
 
-      const embed = new MessageEmbed()
-        .setColor('#0099ff')
-        .setTitle(`Message Content - ${targetMessage.id}`)
-        .setDescription(lines.map((line, index) => `**Line ${index + 1}:** ${line}`).join('\n'));
+        modifiedLines = modifiedLines.map(line => {
+            splitStrings.forEach(splitString => {
+                if (line.includes(splitString)) {
+                    line = line.split(splitString)[1];
+                }
+            });
+            return line;
+        });
 
-      message.channel.send({ embeds: [embed] });
-    }).catch(error => {
+        const filteredLines = modifiedLines.filter((line, index) => ![1, 7, 8, 9, 10].includes(index + 1));
+        const concatenatedLines = filteredLines.join('\n');
 
-      console.error(`Error fetching the specified message with ID ${messageId}.`);
-      console.error(error);
-    });
+        message.channel.send(`${concatenatedLines}`);
+
+
+      })
+      .catch(error => {
+        // Notify if the specified message was not found
+        message.reply(`Error fetching the specified message with ID ${messageId}.`);
+        console.error(error);
+      });
   },
 };
