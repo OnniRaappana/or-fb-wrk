@@ -2,7 +2,7 @@ module.exports = {
   name: 'mm',
   description: 'Help with matchmaking',
   execute(message, args) {
-    // Check if both channel ID and message ID are provided
+
     if (args.length < 2) {
       message.reply('Please provide both a channel ID and a message ID for the bot to read.');
       return;
@@ -11,7 +11,7 @@ module.exports = {
     const channelId = args[0];
     const messageId = args[1];
 
-    // Get the channel based on the provided ID
+
     const targetChannel = message.guild.channels.cache.get(channelId);
 
     if (!targetChannel) {
@@ -19,11 +19,11 @@ module.exports = {
       return;
     }
 
-    // Fetch the message from the specified channel
+
     targetChannel.messages.fetch(messageId)
     
       .then(targetMessage => {
-        // Process the message content
+
         const userId = targetMessage.author.id;
         message.channel.send(`User ID of the message sender: <@${userId}>`);
 
